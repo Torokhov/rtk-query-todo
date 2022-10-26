@@ -1,0 +1,12 @@
+{
+  "endOfLine": "crlf",
+  "arrowParens": "always",
+  "singleQuote": false,
+  "printWidth": 155,
+  "trailingComma": "none",
+  "overrides": [
+    {
+      "files": ["*.js", "*.jsx"]
+    }
+  ]
+}
