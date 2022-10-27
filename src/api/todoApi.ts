@@ -10,6 +10,7 @@ export const todoApi = createApi({
   endpoints: (build) => ({
     getTasks: build.query<Task[], void>({
       query: () => ({
+        method: "GET",
         url: "tasks"
       }),
       providesTags: (result) =>
@@ -22,9 +23,25 @@ export const todoApi = createApi({
         body: patch
       }),
 
-      invalidatesTags: [{ type: "Tasks", id: "LIST" }]
+      invalidatesTags: (result) => [{ type: "Tasks", id: result?.id }]
+    }),
+
+    removeTask: build.mutation<void, { id: number }>({
+      query: ({ id }) => ({
+        url: `tasks/${id}`,
+        method: "DELETE"
+      }),
+
+      invalidatesTags: (result, error, arg) => [{ type: "Tasks", id: arg.id }]
+    }),
+    getTask: build.query<Task, { id: number }>({
+      query: ({ id }) => ({
+        method: "GET",
+        url: `tasks/${id}`
+      }),
+      providesTags: (result) => [{ type: "Tasks", id: result?.id }]
     })
   })
 });
 
-export const { useGetTasksQuery, useUpdateTaskMutation } = todoApi;
+export const { useGetTasksQuery, useUpdateTaskMutation, useGetTaskQuery, useRemoveTaskMutation } = todoApi;
